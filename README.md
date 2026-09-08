@@ -1,0 +1,2 @@
+# ajoketechub
+ basic digital skillls
