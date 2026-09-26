@@ -59,11 +59,11 @@
         <input class="photo-input" id="new-photo" type="file" accept="image/*" aria-label="Choose a new home-page photo" />
         <label class="admin-file-label" for="new-photo">Choose image file</label>
 
-        <button class="admin-save-button" id="save-photo" type="button" disabled>Save photo into website folder</button>
+        <button class="admin-save-button" id="save-photo" type="button" disabled>Save as home-page photo</button>
         <p class="admin-status" id="admin-status" role="status" aria-live="polite">Choose a photo to enable saving.</p>
       </section>
 
-      <p class="admin-note">Saving asks you to select your website folder and writes the photo there. This static site has no sign-in system; anyone can open this editor, but saving only happens to a folder you explicitly choose and approve. To update GitHub Pages, commit and push the saved image file with the site.</p>
+      <p class="admin-note">Photo saving works when this page is served by the local <code>dev_server.py</code>. GitHub Pages cannot accept uploads. After saving locally, commit and push <code>assets/sister-photo.jpg</code> with the site to publish it.</p>
     </main>
 
     <footer class="site-footer">
@@ -157,37 +157,29 @@
 
       saveButton.addEventListener("click", async () => {
         if (!selectedPhoto) return;
-        if (typeof window.showDirectoryPicker !== "function") {
-          status.textContent = "Folder saving needs Chrome or Edge. You can still choose a photo here.";
-          return;
-        }
 
         saveButton.disabled = true;
-        status.textContent = "Choose the project folder that contains index.html.";
+        status.textContent = "Preparing the photo for the home page...";
 
         try {
-          const projectFolder = await window.showDirectoryPicker({ mode: "readwrite" });
-          await projectFolder.getFileHandle("index.html");
           const imageBlob = await makeJpeg(selectedPhoto.blob);
-          const assetsFolder = await projectFolder.getDirectoryHandle("assets", { create: true });
-          const imageFile = await assetsFolder.getFileHandle("sister-photo.jpg", { create: true });
-          const writable = await imageFile.createWritable();
-          await writable.write(imageBlob);
-          await writable.close();
+          const response = await fetch("/api/home-photo", {
+            method: "POST",
+            headers: { "Content-Type": "image/jpeg" },
+            body: imageBlob
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || "The photo could not be saved.");
 
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           previewUrl = URL.createObjectURL(imageBlob);
           preview.src = previewUrl;
           previewCaption.textContent = "Saved home-page photo";
-          status.textContent = "Saved to assets/sister-photo.jpg. Refresh the home page to see it.";
+          status.textContent = `Saved to ${result.saved}. Refresh the home page to see it.`;
         } catch (error) {
-          if (error.name === "AbortError") {
-            status.textContent = "Folder selection was cancelled; no files were changed.";
-          } else if (error.name === "NotFoundError") {
-            status.textContent = "That folder does not contain index.html. Choose the website project folder.";
-          } else {
-            status.textContent = error.message || "Could not save the photo. Check folder permission and try again.";
-          }
+          status.textContent = error instanceof TypeError
+            ? "The site server cannot save files yet. Start it with python3 dev_server.py and try again."
+            : error.message || "Could not save the photo to the project folder.";
         } finally {
           saveButton.disabled = !selectedPhoto;
         }
