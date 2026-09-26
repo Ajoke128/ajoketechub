@@ -445,33 +445,6 @@ h2 em {
   font-style: italic;
 }
 
-.memory-actions {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.memory-upload {
-  flex: 0 0 auto;
-  padding: 8px 12px;
-  border: 1px solid rgba(141, 45, 66, 0.5);
-  color: var(--berry-dark);
-  cursor: pointer;
-  font-size: 0.72rem;
-  font-weight: 700;
-  transition: background 180ms ease, color 180ms ease;
-}
-
-.memory-upload:hover {
-  background: var(--berry);
-  color: var(--white);
-}
-
-.memory-actions .photo-input:focus-visible + .memory-upload {
-  outline: 2px solid var(--berry);
-  outline-offset: 3px;
-}
-
 .memory-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.82fr 0.9fr;
@@ -988,17 +961,6 @@ h2 em {
   .memory-heading {
     display: block;
     margin-bottom: 35px;
-  }
-
-  .memory-actions {
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 16px;
-  }
-
-  .memory-aside {
-    display: block;
-    margin-top: 0;
   }
 
   .memory-grid {

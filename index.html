@@ -89,11 +89,7 @@
             <p class="eyebrow">A place for our favorite moments</p>
             <h2 id="memory-title">Us, being <em>us.</em></h2>
           </div>
-          <div class="memory-actions">
-            <span class="memory-aside">The good days, the silly days,<br />and every day in between.</span>
-            <input class="photo-input" id="memory-photos" type="file" accept="image/*" multiple aria-label="Choose memory photos" />
-            <label class="memory-upload" for="memory-photos">Add photos <span aria-hidden="true">&#8593;</span></label>
-          </div>
+          <span class="memory-aside">The good days, the silly days,<br />and every day in between.</span>
         </div>
         <div class="memory-grid">
           <p class="memory-empty" id="memory-empty">Your favorite moments will live here.</p>
@@ -143,75 +139,6 @@
       document.querySelector("#previous-photo").addEventListener("click", () => showHeroPhoto(-1));
       document.querySelector("#next-photo").addEventListener("click", () => showHeroPhoto(1));
 
-      const memoryInput = document.querySelector("#memory-photos");
-      const memoryGrid = document.querySelector(".memory-grid");
-      const memoryPreviewUrls = [];
-
-      const openMemoryDatabase = () => new Promise((resolve, reject) => {
-        const request = indexedDB.open("sister-memory-gallery", 1);
-        request.onupgradeneeded = () => {
-          if (!request.result.objectStoreNames.contains("photos")) {
-            request.result.createObjectStore("photos", { keyPath: "id" });
-          }
-        };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-
-      const renderMemoryPhoto = ({ name, blob }) => {
-        document.querySelector("#memory-empty")?.remove();
-        const previewUrl = URL.createObjectURL(blob);
-        memoryPreviewUrls.push(previewUrl);
-
-        const frame = document.createElement("figure");
-        frame.className = "memory memory-added";
-
-        const image = document.createElement("img");
-        image.src = previewUrl;
-        image.alt = "A photo you added to your memories";
-
-        const caption = document.createElement("figcaption");
-        caption.textContent = name || "A favorite memory";
-
-        frame.append(image, caption);
-        memoryGrid.append(frame);
-      };
-
-      const restoreMemoryPhotos = async () => {
-        const database = await openMemoryDatabase();
-        const transaction = database.transaction("photos", "readonly");
-        const records = await new Promise((resolve, reject) => {
-          const request = transaction.objectStore("photos").getAll();
-          request.onsuccess = () => resolve(request.result);
-          request.onerror = () => reject(request.error);
-        });
-        records.forEach(renderMemoryPhoto);
-      };
-
-      memoryInput.addEventListener("change", async () => {
-        const photos = [...memoryInput.files].filter(photo => photo.type.startsWith("image/"));
-        memoryInput.value = "";
-        if (!photos.length) return;
-
-        const database = await openMemoryDatabase();
-        const transaction = database.transaction("photos", "readwrite");
-        const records = photos.map(photo => {
-          const extensionIndex = photo.name.lastIndexOf(".");
-          const name = extensionIndex > 0 ? photo.name.slice(0, extensionIndex) : photo.name;
-          return { id: crypto.randomUUID(), name, type: photo.type, blob: photo };
-        });
-
-        records.forEach(record => transaction.objectStore("photos").put(record));
-        await new Promise((resolve, reject) => {
-          transaction.oncomplete = resolve;
-          transaction.onerror = () => reject(transaction.error);
-        });
-        records.forEach(renderMemoryPhoto);
-      });
-
-      restoreMemoryPhotos().catch(() => {
-        document.querySelector("#memory-empty").textContent = "Choose Add photos to create your gallery.";
-      });
     </script>
   </body>
 </html>
