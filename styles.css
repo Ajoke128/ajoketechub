@@ -285,23 +285,51 @@ h2 em {
   outline-offset: 3px;
 }
 
-.hero-photo figcaption {
+.hero-photo-controls {
   position: absolute;
   right: 8px;
   bottom: 10px;
   left: 8px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-photo-controls figcaption {
+  min-width: 0;
   color: #645851;
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   font-style: italic;
   text-align: center;
 }
 
-.hero-photo figcaption span {
+.hero-photo-controls figcaption span {
   padding-right: 5px;
   color: var(--berry);
   font-family: var(--sans);
   font-style: normal;
+}
+
+.photo-nav {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(141, 45, 66, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 250, 246, 0.82);
+  color: var(--berry-dark);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.photo-nav:hover {
+  background: var(--berry);
+  color: var(--white);
 }
 
 .photo-sticker {

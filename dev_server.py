@@ -15,7 +15,12 @@ class SiteHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
     def do_POST(self):
-        if urlsplit(self.path).path != "/api/home-photo":
+        photo_paths = {
+            "/api/home-photo": "sister-photo.jpg",
+            "/api/home-photo/second": "sister-photo-2.jpg",
+        }
+        destination_name = photo_paths.get(urlsplit(self.path).path)
+        if destination_name is None:
             self.send_error(404)
             return
 
@@ -45,7 +50,7 @@ class SiteHandler(SimpleHTTPRequestHandler):
 
         assets_directory = ROOT / "assets"
         assets_directory.mkdir(exist_ok=True)
-        destination = assets_directory / "sister-photo.jpg"
+        destination = assets_directory / destination_name
         temporary_path = None
 
         try:
@@ -59,7 +64,7 @@ class SiteHandler(SimpleHTTPRequestHandler):
             self.send_json(500, {"error": "The photo could not be written to the project folder."})
             return
 
-        self.send_json(200, {"saved": "assets/sister-photo.jpg"})
+        self.send_json(200, {"saved": f"assets/{destination_name}"})
 
     def send_json(self, status, value):
         response = json.dumps(value).encode("utf-8")

@@ -44,11 +44,16 @@
 
         <figure class="hero-photo">
           <img
+            id="hero-photo-image"
             src="assets/sister-photo.jpg"
-            alt="A photo chosen for Olashile"
+            alt="Olashile in a photo collage"
             fetchpriority="high"
           />
-          <figcaption><span>&#9829;</span> My forever favorite person</figcaption>
+          <div class="hero-photo-controls">
+            <button class="photo-nav" id="previous-photo" type="button" aria-label="Previous photo" title="Previous photo">&#8592;</button>
+            <figcaption id="hero-photo-caption" aria-live="polite"><span>&#9829;</span> My forever favorite person</figcaption>
+            <button class="photo-nav" id="next-photo" type="button" aria-label="Next photo" title="Next photo">&#8594;</button>
+          </div>
           <span class="photo-sticker" aria-hidden="true">SISTERS<br />ALWAYS</span>
         </figure>
         <span class="hero-side-note" aria-hidden="true">the best kind of built-in best friend</span>
@@ -116,10 +121,27 @@
       <a href="#home">Back to the top <span aria-hidden="true">&#8593;</span></a>
     </footer>
     <script>
-      const sisterPhoto = document.querySelector(".hero-photo img");
-      sisterPhoto.addEventListener("error", () => {
-        sisterPhoto.src = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85";
-      }, { once: true });
+      const heroPhotos = [
+        {
+          src: "assets/sister-photo.jpg",
+          alt: "Olashile in a photo collage"
+        },
+        {
+          src: "assets/sister-photo-2.jpg",
+          alt: "A favorite photo of two sisters together"
+        }
+      ];
+      const heroPhotoImage = document.querySelector("#hero-photo-image");
+      let currentHeroPhoto = 0;
+
+      const showHeroPhoto = direction => {
+        currentHeroPhoto = (currentHeroPhoto + direction + heroPhotos.length) % heroPhotos.length;
+        heroPhotoImage.src = heroPhotos[currentHeroPhoto].src;
+        heroPhotoImage.alt = heroPhotos[currentHeroPhoto].alt;
+      };
+
+      document.querySelector("#previous-photo").addEventListener("click", () => showHeroPhoto(-1));
+      document.querySelector("#next-photo").addEventListener("click", () => showHeroPhoto(1));
 
       const memoryInput = document.querySelector("#memory-photos");
       const memoryGrid = document.querySelector(".memory-grid");
