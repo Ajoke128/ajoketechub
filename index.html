@@ -24,7 +24,10 @@
         <span class="wordmark-label">A LITTLE NOTE FOR YOU</span>
         <span class="wordmark-name">To my dear Olashile</span>
       </a>
-      <a class="header-link" href="#letter">Read your letter <span aria-hidden="true">&#8599;</span></a>
+      <nav class="header-actions" aria-label="Page actions">
+        <a class="header-link" href="admin.html">Admin profile <span aria-hidden="true">&#8599;</span></a>
+        <a class="header-link" href="#letter">Read your letter <span aria-hidden="true">&#8599;</span></a>
+      </nav>
     </header>
 
     <main>
@@ -41,13 +44,11 @@
 
         <figure class="hero-photo">
           <img
-            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85"
-            alt="A smiling woman outdoors"
+            src="assets/sister-photo.jpg"
+            alt="A photo chosen for Olashile"
             fetchpriority="high"
           />
           <figcaption><span>&#9829;</span> My forever favorite person</figcaption>
-          <input class="photo-input" id="sister-photo" type="file" accept="image/*" aria-label="Choose a photo for your sister" />
-          <label class="photo-upload" for="sister-photo">Choose her photo <span aria-hidden="true">&#8593;</span></label>
           <span class="photo-sticker" aria-hidden="true">SISTERS<br />ALWAYS</span>
         </figure>
         <span class="hero-side-note" aria-hidden="true">the best kind of built-in best friend</span>
@@ -115,19 +116,10 @@
       <a href="#home">Back to the top <span aria-hidden="true">&#8593;</span></a>
     </footer>
     <script>
-      const photoInput = document.querySelector("#sister-photo");
       const sisterPhoto = document.querySelector(".hero-photo img");
-      let photoPreviewUrl;
-
-      photoInput.addEventListener("change", () => {
-        const photo = photoInput.files[0];
-        if (!photo) return;
-
-        if (photoPreviewUrl) URL.revokeObjectURL(photoPreviewUrl);
-        photoPreviewUrl = URL.createObjectURL(photo);
-        sisterPhoto.src = photoPreviewUrl;
-        sisterPhoto.alt = "The photo you chose for your sister";
-      });
+      sisterPhoto.addEventListener("error", () => {
+        sisterPhoto.src = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85";
+      }, { once: true });
 
       const memoryInput = document.querySelector("#memory-photos");
       const memoryGrid = document.querySelector(".memory-grid");

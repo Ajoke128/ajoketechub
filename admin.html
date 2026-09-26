@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7eee8" />
+    <title>Admin Profile | For My Sister</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="admin-page">
+    <header class="site-header">
+      <a class="wordmark" href="index.html" aria-label="Return to the sister website">
+        <span class="wordmark-heart" aria-hidden="true">&#9829;</span>
+        <span class="wordmark-label">A LITTLE NOTE FOR YOU</span>
+        <span class="wordmark-name">To my dear Olashile</span>
+      </a>
+      <a class="header-link" href="index.html">View the home page <span aria-hidden="true">&#8599;</span></a>
+    </header>
+
+    <main class="admin-shell">
+      <section class="admin-intro" aria-labelledby="admin-title">
+        <p class="eyebrow">Site settings</p>
+        <h1 id="admin-title">Admin profile</h1>
+        <p>Choose the photo that belongs in the home-page frame. Save it into your website folder so it stays with the site.</p>
+      </section>
+
+      <section class="admin-profile" aria-label="Administrator profile">
+        <div class="admin-avatar" aria-hidden="true">O</div>
+        <p><strong>Olashile's site</strong><span>Local site administrator</span></p>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="photo-title">
+        <h2 id="photo-title">Home-page photo</h2>
+        <p class="admin-help">Your selected image is saved as <code>assets/sister-photo.jpg</code>.</p>
+
+        <div class="admin-preview-wrap">
+          <img
+            class="admin-preview"
+            id="photo-preview"
+            src="assets/sister-photo.jpg"
+            alt="Preview of the selected home-page photo"
+          />
+          <span class="admin-preview-caption" id="preview-caption">Current home-page photo</span>
+        </div>
+
+        <label class="admin-label" for="gallery-photo">Use a photo already in your memories</label>
+        <select class="admin-memory-select" id="gallery-photo" disabled>
+          <option value="">Looking for saved gallery photos...</option>
+        </select>
+
+        <div class="admin-divider">or choose a new photo</div>
+
+        <input class="photo-input" id="new-photo" type="file" accept="image/*" aria-label="Choose a new home-page photo" />
+        <label class="admin-file-label" for="new-photo">Choose image file</label>
+
+        <button class="admin-save-button" id="save-photo" type="button" disabled>Save photo into website folder</button>
+        <p class="admin-status" id="admin-status" role="status" aria-live="polite">Choose a photo to enable saving.</p>
+      </section>
+
+      <p class="admin-note">Saving asks you to select your website folder and writes the photo there. This static site has no sign-in system; anyone can open this editor, but saving only happens to a folder you explicitly choose and approve. To update GitHub Pages, commit and push the saved image file with the site.</p>
+    </main>
+
+    <footer class="site-footer">
+      <a href="index.html">Back to the sister website</a>
+      <span class="footer-heart" aria-hidden="true">&#9829;</span>
+      <span>Photo editor</span>
+    </footer>
+
+    <script>
+      const photoInput = document.querySelector("#new-photo");
+      const gallerySelect = document.querySelector("#gallery-photo");
+      const preview = document.querySelector("#photo-preview");
+      const previewCaption = document.querySelector("#preview-caption");
+      const saveButton = document.querySelector("#save-photo");
+      const status = document.querySelector("#admin-status");
+      let selectedPhoto = null;
+      let previewUrl = null;
+      let galleryPhotos = [];
+
+      const setSelectedPhoto = (blob, name) => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        selectedPhoto = { blob, name };
+        previewUrl = URL.createObjectURL(blob);
+        preview.src = previewUrl;
+        previewCaption.textContent = name;
+        saveButton.disabled = false;
+        status.textContent = "Ready to save into your website folder.";
+      };
+
+      const openGalleryDatabase = () => new Promise((resolve, reject) => {
+        const request = indexedDB.open("sister-memory-gallery", 1);
+        request.onupgradeneeded = () => {
+          if (!request.result.objectStoreNames.contains("photos")) {
+            request.result.createObjectStore("photos", { keyPath: "id" });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      const loadGalleryPhotos = async () => {
+        const database = await openGalleryDatabase();
+        const transaction = database.transaction("photos", "readonly");
+        const records = await new Promise((resolve, reject) => {
+          const request = transaction.objectStore("photos").getAll();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+
+        galleryPhotos = records;
+        gallerySelect.replaceChildren(new Option(
+          records.length ? "Choose a saved memory photo..." : "No saved memory photos yet",
+          ""
+        ));
+        records.forEach((record, index) => {
+          gallerySelect.add(new Option(record.name || `Memory photo ${index + 1}`, String(index)));
+        });
+        gallerySelect.disabled = records.length === 0;
+      };
+
+      gallerySelect.addEventListener("change", () => {
+        const record = galleryPhotos[Number(gallerySelect.value)];
+        if (record) {
+          photoInput.value = "";
+          setSelectedPhoto(record.blob, record.name || "Memory photo");
+        }
+      });
+
+      photoInput.addEventListener("change", () => {
+        const photo = photoInput.files[0];
+        if (!photo || !photo.type.startsWith("image/")) return;
+        gallerySelect.value = "";
+        setSelectedPhoto(photo, photo.name);
+      });
+
+      const makeJpeg = async imageBlob => {
+        const bitmap = await createImageBitmap(imageBlob);
+        const scale = Math.min(1, 2000 / Math.max(bitmap.width, bitmap.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(bitmap.width * scale);
+        canvas.height = Math.round(bitmap.height * scale);
+        const context = canvas.getContext("2d");
+        context.fillStyle = "#fffaf6";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        bitmap.close();
+        return new Promise((resolve, reject) => {
+          canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("The image could not be prepared.")), "image/jpeg", 0.9);
+        });
+      };
+
+      saveButton.addEventListener("click", async () => {
+        if (!selectedPhoto) return;
+        if (typeof window.showDirectoryPicker !== "function") {
+          status.textContent = "Folder saving needs Chrome or Edge. You can still choose a photo here.";
+          return;
+        }
+
+        saveButton.disabled = true;
+        status.textContent = "Choose the project folder that contains index.html.";
+
+        try {
+          const projectFolder = await window.showDirectoryPicker({ mode: "readwrite" });
+          await projectFolder.getFileHandle("index.html");
+          const imageBlob = await makeJpeg(selectedPhoto.blob);
+          const assetsFolder = await projectFolder.getDirectoryHandle("assets", { create: true });
+          const imageFile = await assetsFolder.getFileHandle("sister-photo.jpg", { create: true });
+          const writable = await imageFile.createWritable();
+          await writable.write(imageBlob);
+          await writable.close();
+
+          if (previewUrl) URL.revokeObjectURL(previewUrl);
+          previewUrl = URL.createObjectURL(imageBlob);
+          preview.src = previewUrl;
+          previewCaption.textContent = "Saved home-page photo";
+          status.textContent = "Saved to assets/sister-photo.jpg. Refresh the home page to see it.";
+        } catch (error) {
+          if (error.name === "AbortError") {
+            status.textContent = "Folder selection was cancelled; no files were changed.";
+          } else if (error.name === "NotFoundError") {
+            status.textContent = "That folder does not contain index.html. Choose the website project folder.";
+          } else {
+            status.textContent = error.message || "Could not save the photo. Check folder permission and try again.";
+          }
+        } finally {
+          saveButton.disabled = !selectedPhoto;
+        }
+      });
+
+      loadGalleryPhotos().catch(() => {
+        gallerySelect.replaceChildren(new Option("No saved memory photos found in this browser", ""));
+        gallerySelect.disabled = true;
+      });
+
+      preview.addEventListener("error", () => {
+        preview.src = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80";
+      }, { once: true });
+    </script>
+  </body>
+</html>
