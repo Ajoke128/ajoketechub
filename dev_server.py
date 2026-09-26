@@ -18,6 +18,7 @@ class SiteHandler(SimpleHTTPRequestHandler):
         photo_paths = {
             "/api/home-photo": "sister-photo.jpg",
             "/api/home-photo/second": "sister-photo-2.jpg",
+            "/api/home-photo/third": "sister-photo-3.jpg",
         }
         destination_name = photo_paths.get(urlsplit(self.path).path)
         if destination_name is None:

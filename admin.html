@@ -37,7 +37,7 @@
 
       <section class="admin-panel" aria-labelledby="photo-title">
         <h2 id="photo-title">Home-page photo</h2>
-        <p class="admin-help">Your selected image is saved as <code>assets/sister-photo.jpg</code>.</p>
+        <p class="admin-help">Replace the first slide, or add another photo without changing the two already on the home page.</p>
 
         <div class="admin-preview-wrap">
           <img
@@ -60,10 +60,11 @@
         <label class="admin-file-label" for="new-photo">Choose image file</label>
 
         <button class="admin-save-button" id="save-photo" type="button" disabled>Save as home-page photo</button>
+        <button class="admin-save-button admin-add-button" id="add-slide-photo" type="button" disabled>Add as a third slideshow photo</button>
         <p class="admin-status" id="admin-status" role="status" aria-live="polite">Choose a photo to enable saving.</p>
       </section>
 
-      <p class="admin-note">Photo saving works when this page is served by the local <code>dev_server.py</code>. GitHub Pages cannot accept uploads. After saving locally, commit and push <code>assets/sister-photo.jpg</code> with the site to publish it.</p>
+      <p class="admin-note">Photo saving works when this page is served by the local <code>dev_server.py</code>. After saving, commit and push the new image file with the site to publish it on GitHub Pages.</p>
     </main>
 
     <footer class="site-footer">
@@ -78,6 +79,7 @@
       const preview = document.querySelector("#photo-preview");
       const previewCaption = document.querySelector("#preview-caption");
       const saveButton = document.querySelector("#save-photo");
+      const addSlideButton = document.querySelector("#add-slide-photo");
       const status = document.querySelector("#admin-status");
       let selectedPhoto = null;
       let previewUrl = null;
@@ -90,6 +92,7 @@
         preview.src = previewUrl;
         previewCaption.textContent = name;
         saveButton.disabled = false;
+        addSlideButton.disabled = false;
         status.textContent = "Ready to save into your website folder.";
       };
 
@@ -155,15 +158,16 @@
         });
       };
 
-      saveButton.addEventListener("click", async () => {
+      const saveSelectedPhoto = async (endpoint, successMessage) => {
         if (!selectedPhoto) return;
 
         saveButton.disabled = true;
+        addSlideButton.disabled = true;
         status.textContent = "Preparing the photo for the home page...";
 
         try {
           const imageBlob = await makeJpeg(selectedPhoto.blob);
-          const response = await fetch("/api/home-photo", {
+          const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "image/jpeg" },
             body: imageBlob
@@ -174,16 +178,20 @@
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           previewUrl = URL.createObjectURL(imageBlob);
           preview.src = previewUrl;
-          previewCaption.textContent = "Saved home-page photo";
-          status.textContent = `Saved to ${result.saved}. Refresh the home page to see it.`;
+          previewCaption.textContent = successMessage;
+          status.textContent = `Saved to ${result.saved}. Commit and push the image to publish it.`;
         } catch (error) {
           status.textContent = error instanceof TypeError
             ? "The site server cannot save files yet. Start it with python3 dev_server.py and try again."
             : error.message || "Could not save the photo to the project folder.";
         } finally {
           saveButton.disabled = !selectedPhoto;
+          addSlideButton.disabled = !selectedPhoto;
         }
-      });
+      };
+
+      saveButton.addEventListener("click", () => saveSelectedPhoto("/api/home-photo", "Saved as first slide"));
+      addSlideButton.addEventListener("click", () => saveSelectedPhoto("/api/home-photo/third", "Saved as third slide"));
 
       loadGalleryPhotos().catch(() => {
         gallerySelect.replaceChildren(new Option("No saved memory photos found in this browser", ""));
