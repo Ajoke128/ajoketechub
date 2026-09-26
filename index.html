@@ -5,234 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A sports and music foundation dedicated to empowering young people through access, training, and community support."
+      content="A little love note for the best sister in the world."
     />
-    <title>Ford Foundation</title>
+    <meta name="theme-color" content="#f7eee8" />
+    <title>For My Sister, With Love</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
-      <div class="container nav-wrap">
-        <div class="brand">
-          <span class="brand-mark">F</span>
-          <span>Ford Foundation</span>
-        </div>
-        <nav class="main-nav" aria-label="Main navigation">
-          <a href="#mission">Mission</a>
-          <a href="#programs">Programs</a>
-          <a href="#impact">Impact</a>
-          <a href="#donate">Donate</a>
-        </nav>
-        <a class="button button-sm" href="#donate">Give Now</a>
-      </div>
+      <a class="wordmark" href="#home" aria-label="For my sister, home">
+        <span class="wordmark-heart" aria-hidden="true">&#9829;</span>
+        <span class="wordmark-label">A LITTLE NOTE FOR YOU</span>
+        <span class="wordmark-name">To my dear Olashile</span>
+      </a>
+      <a class="header-link" href="#letter">Read your letter <span aria-hidden="true">&#8599;</span></a>
     </header>
 
     <main>
-      <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Helping kids rise through sport and sound</p>
-            <h1>We build brighter futures through sports, music, and opportunity.</h1>
-            <p class="lead">
-              Ford Foundation helps young people access training, mentorship,
-              and creative expression so they can grow with confidence, discipline, and joy.
-            </p>
-            <div class="cta-row">
-              <a class="button" href="#donate">Donate Today</a>
-              <a class="button button-secondary" href="#programs">Explore Programs</a>
-            </div>
-            <ul class="mini-stats" aria-label="Foundation statistics">
-              <li><strong>2,400+</strong><span>Young people reached</span></li>
-              <li><strong>84%</strong><span>Program retention</span></li>
-              <li><strong>42</strong><span>Community events hosted</span></li>
-            </ul>
-          </div>
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">The world got <em>luckier</em> when you became my sister.</h1>
+          <p class="hero-note">
+            For the laughs, the little check-ins, and the way you make ordinary days better.
+            I might not say it enough, but I am so glad you are my sister.
+          </p>
+          <a class="text-link" href="#little-things">A few things I love about you <span aria-hidden="true">&#8595;</span></a>
+          <span class="hero-doodle" aria-hidden="true">&#10022;</span>
+        </div>
 
-          <div class="hero-card" aria-label="Foundation highlights">
-            <div class="card-panel">
-              <span class="chip">Urgent appeal</span>
-              <h2>Support this season of growth</h2>
-              <p>
-                Your donation will fund equipment, music lessons, coaching, scholarships,
-                and safe after-school spaces for children who need them most.
-              </p>
+        <figure class="hero-photo">
+          <img
+            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85"
+            alt="A smiling woman outdoors"
+            fetchpriority="high"
+          />
+          <figcaption><span>&#9829;</span> My forever favorite person</figcaption>
+          <input class="photo-input" id="sister-photo" type="file" accept="image/*" aria-label="Choose a photo for your sister" />
+          <label class="photo-upload" for="sister-photo">Choose her photo <span aria-hidden="true">&#8593;</span></label>
+          <span class="photo-sticker" aria-hidden="true">SISTERS<br />ALWAYS</span>
+        </figure>
+        <span class="hero-side-note" aria-hidden="true">the best kind of built-in best friend</span>
+      </section>
 
-              <div class="progress-block">
-                <div class="progress-meta">
-                  <span>Raised this month</span>
-                  <strong>$48,200</strong>
-                </div>
-                <div class="progress-bar" aria-label="Campaign progress">
-                  <span style="width: 72%"></span>
-                </div>
-                <small>72% of our goal reached</small>
-              </div>
-
-              <div class="amount-grid" aria-label="Donation amount options">
-                <button type="button">$25</button>
-                <button type="button">$50</button>
-                <button type="button" class="selected">$100</button>
-                <button type="button">$250</button>
-              </div>
-            </div>
-          </div>
+      <section class="love-section" id="little-things" aria-labelledby="love-title">
+        <div class="section-intro">
+          <p class="eyebrow">The little things are the big things</p>
+          <h2 id="love-title">A few reasons<br />you are <em>the best.</em></h2>
+        </div>
+        <div class="love-list">
+          <article class="love-item">
+            <span class="love-number">01</span>
+            <div><h3>You make people feel loved.</h3><p>There is something special about the way you show up for the people around you.</p></div>
+            <span class="love-spark" aria-hidden="true">&#10022;</span>
+          </article>
+          <article class="love-item">
+            <span class="love-number">02</span>
+            <div><h3>You feel everything with your whole heart.</h3><p>Even with the anger, the dramatic reactions, and the occasional overreaction, you are still the sweetest person I have ever known. Your big feelings come from caring deeply, and underneath it all is the kindest, most generous heart.</p></div>
+            <span class="love-spark" aria-hidden="true">&#10022;</span>
+          </article>
+          <article class="love-item">
+            <span class="love-number">03</span>
+            <div><h3>You are completely, wonderfully you.</h3><p>And that is already more than enough reason to celebrate you.</p></div>
+            <span class="love-spark" aria-hidden="true">&#10022;</span>
+          </article>
         </div>
       </section>
 
-      <section id="mission" class="section mission">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow dark">Our mission</p>
-            <h2>We turn talent into opportunity.</h2>
-          </div>
-
-          <div class="feature-grid">
-            <article class="feature-card">
-              <div class="icon">🏆</div>
-              <h3>Sports access</h3>
-              <p>
-                We provide equipment, coaching, and development pathways for youth who are
-                excluded from training by cost or distance.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="icon">🎵</div>
-              <h3>Music education</h3>
-              <p>
-                We support lessons, instruments, and performance opportunities so every child
-                can experience creative confidence.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="icon">🤝</div>
-              <h3>Mentorship</h3>
-              <p>
-                Our volunteers and coaches guide young people toward discipline, resilience, and
-                stronger community belonging.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="programs" class="section programs">
-        <div class="container two-col">
+      <section class="memory-section" aria-labelledby="memory-title">
+        <div class="memory-heading">
           <div>
-            <p class="eyebrow dark">What we do</p>
-            <h2>Programs designed to nurture talent and belonging.</h2>
+            <p class="eyebrow">A place for our favorite moments</p>
+            <h2 id="memory-title">Us, being <em>us.</em></h2>
           </div>
-          <div class="program-list">
-            <div class="program-item">
-              <span>01</span>
-              <div>
-                <h3>Junior Athletic Clubs</h3>
-                <p>Weekly training, team-building, and access to safe practice spaces for youth.</p>
-              </div>
-            </div>
-            <div class="program-item">
-              <span>02</span>
-              <div>
-                <h3>Music Skills Lab</h3>
-                <p>Instrument donations, vocal coaching, and learning support for aspiring artists.</p>
-              </div>
-            </div>
-            <div class="program-item">
-              <span>03</span>
-              <div>
-                <h3>School & Community Outreach</h3>
-                <p>Partnerships with schools and neighborhoods to reach children facing barriers.</p>
-              </div>
-            </div>
+          <div class="memory-actions">
+            <span class="memory-aside">The good days, the silly days,<br />and every day in between.</span>
+            <input class="photo-input" id="memory-photos" type="file" accept="image/*" multiple aria-label="Choose memory photos" />
+            <label class="memory-upload" for="memory-photos">Add photos <span aria-hidden="true">&#8593;</span></label>
           </div>
+        </div>
+        <div class="memory-grid">
+          <p class="memory-empty" id="memory-empty">Your favorite moments will live here.</p>
         </div>
       </section>
 
-      <section id="impact" class="section impact">
-        <div class="container">
-          <div class="section-heading center">
-            <p class="eyebrow dark">Our impact</p>
-            <h2>A growing network of confidence, creativity, and courage.</h2>
+      <section class="letter-section" id="letter" aria-labelledby="letter-title">
+        <div class="letter-mark" aria-hidden="true">&#9829;</div>
+        <p class="eyebrow">One more thing</p>
+        <h2 id="letter-title">In case I don't say it <em>enough.</em></h2>
+        <details class="letter-details">
+          <summary><span class="summary-closed">Open your little letter <span aria-hidden="true">&#8599;</span></span><span class="summary-open">Close your little letter <span aria-hidden="true">&#8593;</span></span></summary>
+          <div class="letter-copy">
+            <p>Having you as my sister is one of those things I will never take for granted. Thank you for being someone I can laugh with, count on, and love exactly as you are.</p>
+            <p>No matter how busy life gets or how much time passes, I will always be in your corner. You deserve all the good things, all the belly laughs, and all the love in the world.</p>
+            <p class="signoff">Love you endlessly, <span>your sibling</span></p>
           </div>
-
-          <div class="stats-grid">
-            <div class="stat-box">
-              <strong>1,200</strong>
-              <span>Students receiving free equipment</span>
-            </div>
-            <div class="stat-box">
-              <strong>320</strong>
-              <span>Music scholarships awarded</span>
-            </div>
-            <div class="stat-box">
-              <strong>9</strong>
-              <span>Community partnerships active</span>
-            </div>
-            <div class="stat-box">
-              <strong>96%</strong>
-              <span>Parents say the programs increase confidence</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="donate" class="section donate">
-        <div class="container donate-wrap">
-          <div class="donate-copy">
-            <p class="eyebrow dark">Give today</p>
-            <h2>Your support helps young people thrive.</h2>
-            <p>
-              Every donation helps us cover sports gear, music instruments, tutoring, and safe
-              spaces where talent can flourish. We are actively seeking partners and sponsors to
-              expand this work across more communities.
-            </p>
-            <ul>
-              <li>Fund youth sports development and training</li>
-              <li>Provide music lessons and instrument access</li>
-              <li>Support scholarships, mentors, and community events</li>
-            </ul>
-          </div>
-
-          <div class="donation-card">
-            <h3>Make a donation</h3>
-            <div class="donation-amounts">
-              <button type="button">$20</button>
-              <button type="button">$50</button>
-              <button type="button" class="selected">$100</button>
-              <button type="button">$300</button>
-            </div>
-            <label class="field-label" for="custom-amount">Custom amount</label>
-            <input id="custom-amount" type="text" value="$150" aria-label="Custom donation amount" />
-            <button class="button full-width" type="button">Proceed to Donate</button>
-          </div>
-        </div>
+        </details>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-wrap">
-        <div>
-          <div class="brand footer-brand">
-            <span class="brand-mark">F</span>
-            <span>Ford Foundation</span>
-          </div>
-          <p>Empowering young lives through sport, music, and opportunity.</p>
-        </div>
-        <div class="footer-links">
-          <a href="#mission">Mission</a>
-          <a href="#programs">Programs</a>
-          <a href="#donate">Donate</a>
-        </div>
-        <div class="contact-box">
-          <p>hello@fordfoundation.org</p>
-          <p>+1 (555) 439-2061</p>
-        </div>
-      </div>
+      <span>Made with all my love</span>
+      <span class="footer-heart" aria-hidden="true">&#9829;</span>
+      <a href="#home">Back to the top <span aria-hidden="true">&#8593;</span></a>
     </footer>
+    <script>
+      const photoInput = document.querySelector("#sister-photo");
+      const sisterPhoto = document.querySelector(".hero-photo img");
+      let photoPreviewUrl;
+
+      photoInput.addEventListener("change", () => {
+        const photo = photoInput.files[0];
+        if (!photo) return;
+
+        if (photoPreviewUrl) URL.revokeObjectURL(photoPreviewUrl);
+        photoPreviewUrl = URL.createObjectURL(photo);
+        sisterPhoto.src = photoPreviewUrl;
+        sisterPhoto.alt = "The photo you chose for your sister";
+      });
+
+      const memoryInput = document.querySelector("#memory-photos");
+      const memoryGrid = document.querySelector(".memory-grid");
+      const memoryPreviewUrls = [];
+
+      const openMemoryDatabase = () => new Promise((resolve, reject) => {
+        const request = indexedDB.open("sister-memory-gallery", 1);
+        request.onupgradeneeded = () => {
+          if (!request.result.objectStoreNames.contains("photos")) {
+            request.result.createObjectStore("photos", { keyPath: "id" });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      const renderMemoryPhoto = ({ name, blob }) => {
+        document.querySelector("#memory-empty")?.remove();
+        const previewUrl = URL.createObjectURL(blob);
+        memoryPreviewUrls.push(previewUrl);
+
+        const frame = document.createElement("figure");
+        frame.className = "memory memory-added";
+
+        const image = document.createElement("img");
+        image.src = previewUrl;
+        image.alt = "A photo you added to your memories";
+
+        const caption = document.createElement("figcaption");
+        caption.textContent = name || "A favorite memory";
+
+        frame.append(image, caption);
+        memoryGrid.append(frame);
+      };
+
+      const restoreMemoryPhotos = async () => {
+        const database = await openMemoryDatabase();
+        const transaction = database.transaction("photos", "readonly");
+        const records = await new Promise((resolve, reject) => {
+          const request = transaction.objectStore("photos").getAll();
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+        records.forEach(renderMemoryPhoto);
+      };
+
+      memoryInput.addEventListener("change", async () => {
+        const photos = [...memoryInput.files].filter(photo => photo.type.startsWith("image/"));
+        memoryInput.value = "";
+        if (!photos.length) return;
+
+        const database = await openMemoryDatabase();
+        const transaction = database.transaction("photos", "readwrite");
+        const records = photos.map(photo => {
+          const extensionIndex = photo.name.lastIndexOf(".");
+          const name = extensionIndex > 0 ? photo.name.slice(0, extensionIndex) : photo.name;
+          return { id: crypto.randomUUID(), name, type: photo.type, blob: photo };
+        });
+
+        records.forEach(record => transaction.objectStore("photos").put(record));
+        await new Promise((resolve, reject) => {
+          transaction.oncomplete = resolve;
+          transaction.onerror = () => reject(transaction.error);
+        });
+        records.forEach(renderMemoryPhoto);
+      });
+
+      restoreMemoryPhotos().catch(() => {
+        document.querySelector("#memory-empty").textContent = "Choose Add photos to create your gallery.";
+      });
+    </script>
   </body>
 </html>
