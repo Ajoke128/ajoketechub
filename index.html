@@ -131,7 +131,27 @@
           alt: "A favorite photo of Olashile"
         }
       ];
+      const memoryPhotos = [
+        {
+          src: "assets/sister-photo.jpg",
+          alt: "Olashile in a photo collage",
+          caption: "My forever favorite person"
+        },
+        {
+          src: "assets/sister-photo-2.jpg",
+          alt: "A favorite photo of two sisters together",
+          caption: "Our best little memories"
+        },
+        {
+          src: "assets/sister-photo-3.jpg",
+          alt: "A favorite photo of Olashile",
+          caption: "The sweetest part of my world"
+        }
+      ];
+
       const heroPhotoImage = document.querySelector("#hero-photo-image");
+      const memoryGrid = document.querySelector(".memory-grid");
+      const memoryEmpty = document.querySelector("#memory-empty");
       let currentHeroPhoto = 0;
 
       const showHeroPhoto = direction => {
@@ -140,9 +160,34 @@
         heroPhotoImage.alt = heroPhotos[currentHeroPhoto].alt;
       };
 
+      const renderMemoryPhotos = () => {
+        if (!memoryGrid) return;
+
+        memoryGrid.innerHTML = "";
+
+        memoryPhotos.forEach((photo) => {
+          const figure = document.createElement("figure");
+          figure.className = "memory memory-added";
+
+          const img = document.createElement("img");
+          img.src = photo.src;
+          img.alt = photo.alt;
+          img.loading = "lazy";
+
+          const caption = document.createElement("figcaption");
+          caption.textContent = photo.caption;
+
+          figure.appendChild(img);
+          figure.appendChild(caption);
+          memoryGrid.appendChild(figure);
+        });
+
+        if (memoryEmpty) memoryEmpty.remove();
+      };
+
       document.querySelector("#previous-photo").addEventListener("click", () => showHeroPhoto(-1));
       document.querySelector("#next-photo").addEventListener("click", () => showHeroPhoto(1));
-
+      renderMemoryPhotos();
     </script>
   </body>
 </html>
